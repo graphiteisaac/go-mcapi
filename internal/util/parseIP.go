@@ -2,7 +2,6 @@ package util
 
 import (
 	"fmt"
-	"net"
 	"strconv"
 	"strings"
 )
@@ -14,9 +13,6 @@ type MinecraftAddress struct {
 }
 
 func ParseIP(raw string) (addr MinecraftAddress, err error) {
-	fmt.Println("parsing IP....")
-	fmt.Println(net.ParseIP(raw))
-
 	if strings.Contains(raw, ":") {
 		split := strings.Split(raw, ":")
 		port, err := strconv.Atoi(split[1])

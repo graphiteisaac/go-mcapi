@@ -10,7 +10,7 @@ import (
 )
 
 func PingServerTCP(c context.Context, addr util.MinecraftAddress) (ping util.PingResponse, err error) {
-	conn, err := net.Dial("tcp", addr.Combined)
+	conn, err := net.DialTimeout("tcp", addr.Combined, 10*time.Second)
 	if err != nil {
 		return
 	}
