@@ -23,8 +23,6 @@ func GetIcon(c *gin.Context) {
 			return
 		}
 
-		fmt.Println(server.Icon)
-
 		img, err := util.Base64StringToImage(server.Icon)
 		if err != nil {
 			fmt.Println(err)

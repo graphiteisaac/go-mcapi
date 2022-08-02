@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  cache:
+    image: redis:6.2-alpine
+    restart: always
+    command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+    volumes:
+      - cache:/data
+    networks:
+      - backend
+
+  mcapi:
+    build: .
+    depends_on:
+      - cache
+    ports:
+      - "3333:3333"
+    environment:
+      - REDIS_HOST=cache:6379
+      - REDIS_PASS=eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+      - GIN_MODE=release
+    networks:
+      - backend
+
+volumes:
+  cache:
+    driver: local
+
+networks:
+  backend:
