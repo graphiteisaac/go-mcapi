@@ -21,6 +21,7 @@ type pingResponseVersion struct {
 
 type PingResponse struct {
 	Hostname    string                  `json:"hostname"`
+	IPv4        string                  `json:"ipv4"`
 	Port        uint16                  `json:"port"`
 	Cached      bool                    `json:"cached"`
 	Description pingResponseDescription `json:"description"`

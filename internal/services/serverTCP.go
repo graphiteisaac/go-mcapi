@@ -7,6 +7,7 @@ import (
 	"mc-api/internal/db"
 	"mc-api/internal/util"
 	"net"
+	"strings"
 	"time"
 )
 
@@ -28,6 +29,8 @@ func PingServerTCP(c context.Context, addr util.MinecraftAddress) (ping util.Pin
 
 	// unmarshal response into ping obj
 	ping, err = util.CreateResponseObj(res, addr, false)
+	ping.IPv4 = strings.Split(conn.RemoteAddr().String(), ":")[0]
+
 	if err != nil {
 		return ping, errors.New("malformed response: cannot unmarshal response")
 	}

@@ -8,6 +8,7 @@ import (
 
 type MinecraftAddress struct {
 	IP       string
+	IPv4     string
 	Port     uint16
 	Combined string
 }
