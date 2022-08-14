@@ -3,6 +3,7 @@ package services
 import (
 	"context"
 	"errors"
+	"mc-api/internal/config"
 	"mc-api/internal/db"
 	"mc-api/internal/util"
 	"net"
@@ -26,15 +27,17 @@ func PingServerTCP(c context.Context, addr util.MinecraftAddress) (ping util.Pin
 	}
 
 	// unmarshal response into ping obj
-	ping, err = util.CreateResponseObj(res, addr, true)
+	ping, err = util.CreateResponseObj(res, addr, false)
 	if err != nil {
 		return ping, errors.New("malformed response: cannot unmarshal response")
 	}
 
-	// TODO modify redis expiry to find something clean
-	err = db.Redis.Set(c, addr.Combined, res, time.Minute*3).Err()
-	if err != nil {
-		return ping, errors.New("redis error: cannot set")
+	if config.CacheMode {
+		// TODO modify redis expiry to find something clean
+		err = db.Redis.Set(c, addr.Combined, res, time.Minute*3).Err()
+		if err != nil {
+			return ping, errors.New("redis error: cannot set")
+		}
 	}
 
 	return
