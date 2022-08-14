@@ -17,6 +17,7 @@ services:
     ports:
       - "3333:3333"
     environment:
+      - CACHE=true
       - REDIS_HOST=cache:6379
       - REDIS_PASS=eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
       - GIN_MODE=release

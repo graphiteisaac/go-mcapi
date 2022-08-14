@@ -3,6 +3,7 @@ package services
 import (
 	"context"
 	"errors"
+	"fmt"
 	"mc-api/internal/config"
 	"mc-api/internal/db"
 	"mc-api/internal/util"
@@ -32,6 +33,7 @@ func PingServerTCP(c context.Context, addr util.MinecraftAddress) (ping util.Pin
 	ping.IPv4 = strings.Split(conn.RemoteAddr().String(), ":")[0]
 
 	if err != nil {
+		fmt.Println(err)
 		return ping, errors.New("malformed response: cannot unmarshal response")
 	}
 
