@@ -2,7 +2,6 @@ package util
 
 import (
 	"encoding/json"
-	"fmt"
 )
 
 // TODO come up with better way of handling descriptions, maybe build HTML?
@@ -33,13 +32,11 @@ type PingResponse struct {
 }
 
 func CreateResponseObj(raw string, address MinecraftAddress, cached bool) (ping PingResponse, err error) {
+	err = json.Unmarshal([]byte(raw), &ping)
+
 	ping.Hostname = address.IP
 	ping.Port = address.Port
 	ping.Cached = cached
-
-	err = json.Unmarshal([]byte(raw), &ping)
-
-	fmt.Println(raw)
 
 	return
 }
