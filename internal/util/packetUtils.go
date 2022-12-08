@@ -5,6 +5,7 @@ import (
 	"bytes"
 	"encoding/binary"
 	"errors"
+	"fmt"
 	"net"
 )
 
@@ -13,12 +14,14 @@ func ReadPacketResponse(conn *net.Conn) (string, error) {
 	binary.ReadUvarint(read)
 
 	packetType, _ := read.ReadByte()
+	fmt.Println("packyType", packetType)
 	if bytes.Compare([]byte{packetType}, []byte("\x00")) != 0 {
 		return "", errors.New("error response packet type")
 	}
 
 	//Get data length via Varint
 	length, err := binary.ReadUvarint(read)
+	fmt.Println(length)
 	if err != nil {
 		return "", err
 	}
