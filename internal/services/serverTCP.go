@@ -15,6 +15,7 @@ import (
 )
 
 func PingServerTCP(c *gin.Context, addr util.MinecraftAddress) (ping util.PingResponse, err error) {
+	passedAddr := addr.Combined
 	_, isSrv := c.GetQuery("srv")
 	if isSrv {
 		_, srvs, err := net.LookupSRV("minecraft", "tcp", addr.IP)
@@ -60,7 +61,7 @@ func PingServerTCP(c *gin.Context, addr util.MinecraftAddress) (ping util.PingRe
 	b, err := json.Marshal(ping)
 
 	if config.CacheMode {
-		err = db.Redis.Set(c, addr.Combined, string(b), time.Minute*3).Err()
+		err = db.Redis.Set(c, passedAddr, string(b), time.Minute*3).Err()
 		if err != nil {
 			return ping, errors.New("redis error: cannot set")
 		}
