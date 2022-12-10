@@ -21,6 +21,7 @@ func main() {
 	}
 
 	// Register routes
+	routes.RegisterStaticRoutes(r)
 	routes.RegisterV1Routes(r)
 
 	r.Run(":3333")

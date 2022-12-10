@@ -1,0 +1,192 @@
+:root {
+    --blue: #23CAFF;
+    --text-main: #AAAAB6;
+    --text-heading: #fff;
+    --grey-dark: #28282E;
+    --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+
+html, body {
+    margin: 0;
+}
+
+body {
+    background: #161618 url('./bg.svg') repeat fixed;
+    font-family: 'Noto Sans', sans-serif;
+    padding: 1.2rem;
+    color: #fff;
+}
+
+p {
+    color: var(--text-main);
+    line-height: normal;
+    font-size: 14pt;
+    margin: 0;
+}
+
+p.small {
+    font-size: 12pt;
+    margin-top: 1rem;
+}
+
+p a {
+    color: #fff;
+    padding-bottom: .2rem;
+    border-bottom: var(--grey-dark) 2px solid;
+    transition: border-color 200ms var(--transition-smooth);
+    text-decoration: none;
+}
+
+p a:hover {
+    border-color: var(--blue);
+}
+
+header {
+    text-align: center;
+    padding: 5rem 0;
+}
+
+header h5 {
+    margin: 0;
+    font-size: 12pt;
+    color: var(--blue);
+    line-height: normal;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 48pt;
+    line-height: normal;
+}
+
+header a {
+    border: 2px solid var(--grey-dark);
+    display: inline-flex;
+    align-items: center;
+    margin-top: 1rem;
+    transition: border-color 200ms var(--transition-smooth);
+    font-weight: bold;
+    color: #fff;
+    padding: .7rem 1.6rem;
+    text-decoration: none;
+    border-radius: .4rem;
+}
+
+header a:hover {
+    border-color: var(--blue);
+}
+
+header a svg {
+    margin-right: 6px;
+}
+
+main {
+    max-width: 720px;
+    margin: 0 auto;
+}
+
+.req {
+    display: grid;
+    grid-gap: 1rem;
+    margin-bottom: 4rem;
+}
+
+.req section {
+    position: relative;
+    display: inline-block;
+}
+
+.req .label .method {
+    border: 1px solid var(--grey-dark);
+    background: rgba(0,0,0,.2);
+    padding: .1rem .3rem;
+    color: var(--blue);
+    border-radius: .3rem;
+}
+
+.req .tooltip {
+    position: absolute;
+    bottom: 120%;
+    right: 0;
+    background: none;
+    border: none;
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    font-size: 11pt;
+    color: var(--text-main);
+    cursor: pointer;
+}
+
+.req .tooltip svg {
+    margin-right: .3rem;
+}
+
+.req p {
+    font-size: 11pt;
+    margin-top: .2rem;
+}
+
+.req .url {
+    display: block;
+    border: 1px solid var(--grey-dark);
+    background: rgba(0,0,0,.38);
+    border-radius: .6rem;
+    padding: .8rem 1.6rem;
+    text-align: center;
+    font-size: 12pt;
+    font-weight: bold;
+    font-family: 'Roboto Mono', monospace, sans-serif;
+    color: var(--text-main);
+    position: relative;
+}
+
+.req .url:before {
+    content: 'Copied!';
+    position: absolute;
+    bottom: 120%;
+    left: 0;
+    font-size: 11pt;
+    right: 0;
+    width: max-content;
+    color: #fff;
+    margin: 0 auto;
+    border: 1px solid var(--grey-dark);
+    background: rgba(0,0,0,0.2);
+    padding: .1rem .6rem;
+    border-radius: .3rem;
+    transition: all 140ms var(--transition-smooth);
+    transform: translateY(.5rem);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.req .url.active:before {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.white {
+    color: #fff;
+}
+
+.blue {
+    color: var(--blue);
+}
+
+@media (min-width: 720px) {
+    .req {
+        grid-template-columns: 200px 1fr;
+    }
+}
+
+footer {
+    text-align: center;
+    padding: 5rem 0;
+}
+
+footer h2 {
+    font-size: 32pt;
+    margin: 0 0 .4rem;
+}
