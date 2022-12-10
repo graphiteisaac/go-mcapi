@@ -17,18 +17,16 @@ import (
 func PingServerTCP(c *gin.Context, addr util.MinecraftAddress) (ping util.PingResponse, err error) {
 	passedAddr := addr.Combined
 	_, srvs, err := net.LookupSRV("minecraft", "tcp", addr.IP)
-	if err != nil {
-		return ping, errors.New("could not obtain srv records")
+	if err == nil {
+		sort.Slice(srvs, func(i, j int) bool {
+			return srvs[i].Weight > srvs[j].Weight
+		})
+
+		srv := srvs[0]
+		addr.Combined = fmt.Sprintf("%v:%d", srv.Target, srv.Port)
+		addr.Port = srv.Port
+		addr.IP = srv.Target
 	}
-
-	sort.Slice(srvs, func(i, j int) bool {
-		return srvs[i].Weight > srvs[j].Weight
-	})
-
-	srv := srvs[0]
-	addr.Combined = fmt.Sprintf("%v:%d", srv.Target, srv.Port)
-	addr.Port = srv.Port
-	addr.IP = srv.Target
 
 	conn, err := net.DialTimeout("tcp", addr.Combined, 10*time.Second)
 	if err != nil {
