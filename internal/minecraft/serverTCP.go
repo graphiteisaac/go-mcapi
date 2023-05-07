@@ -5,11 +5,10 @@ import (
 	"fmt"
 	"net"
 	"sort"
-	"strings"
 	"time"
 )
 
-func PingServer(addr Address) (ping PingResponse, err error) {
+func PingServer(addr Address) (string, error) {
 	_, srvs, err := net.LookupSRV("minecraft", "tcp", addr.IP)
 	if err == nil {
 		sort.Slice(srvs, func(i, j int) bool {
@@ -24,7 +23,7 @@ func PingServer(addr Address) (ping PingResponse, err error) {
 
 	conn, err := net.DialTimeout("tcp", addr.Combined, 10*time.Second)
 	if err != nil {
-		return
+		return "", err
 	}
 	defer conn.Close()
 
@@ -33,19 +32,14 @@ func PingServer(addr Address) (ping PingResponse, err error) {
 
 	// read packet response
 	res, err := ReadPacketResponse(&conn)
-
 	if err != nil {
-		return ping, errors.New("tcp error: cant read packet response")
+		return res, errors.New("tcp error: cant read packet response")
 	}
-
-	// unmarshal response into ping obj
-	ping, err = CreateResponseObj(res, addr.IP, addr.Port, false)
-	ping.IPv4 = strings.Split(conn.RemoteAddr().String(), ":")[0]
 
 	if err != nil {
 		fmt.Println(err)
-		return ping, errors.New("malformed response: cannot unmarshal response")
+		return res, errors.New("malformed response: cannot unmarshal response")
 	}
 
-	return ping, nil
+	return res, nil
 }

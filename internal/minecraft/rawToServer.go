@@ -1,7 +1,9 @@
 package minecraft
 
 import (
+	"encoding/base64"
 	"encoding/json"
+	"strings"
 )
 
 // TODO come up with better way of handling descriptions, maybe build HTML?
@@ -31,12 +33,29 @@ type PingResponse struct {
 	Icon        string              `json:"favicon"`
 }
 
+func GetIcon(raw string) ([]byte, error) {
+	var icon struct {
+		Icon string `json:"favicon"`
+	}
+
+	err := json.Unmarshal([]byte(raw), &icon)
+	if err != nil {
+		return nil, err
+	}
+
+	image := icon.Icon[strings.IndexByte(icon.Icon, ',')+1:]
+
+	return base64.StdEncoding.DecodeString(image)
+}
+
 func CreateResponseObj(raw string, host string, port uint16, cached bool) (ping PingResponse, err error) {
 	err = json.Unmarshal([]byte(raw), &ping)
 
 	ping.Hostname = host
 	ping.Port = port
 	ping.Cached = cached
+	ping.IPv4 = host
+	ping.Hostname = host
 
 	return
 }

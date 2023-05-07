@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"encoding/json"
 	"errors"
 	"fmt"
 	"github.com/gin-gonic/gin"
@@ -29,12 +28,16 @@ func PingServer(ch *cache.Cache) func(c *gin.Context) {
 				return
 			}
 
-			bytes, _ := json.Marshal(tcpServer)
-			if err := ch.SetServer(c, address.Combined, string(bytes)); err != nil {
+			if err := ch.SetServer(c, address.Combined, tcpServer); err != nil {
 				fmt.Println("failed to cache")
 			}
 
-			c.JSON(http.StatusOK, tcpServer)
+			server, err := minecraft.CreateResponseObj(tcpServer, address.IPv4, address.Port, false)
+			if err != nil {
+				c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+				return
+			}
+			c.JSON(http.StatusOK, server)
 			return
 		} else if err != nil {
 			fmt.Println("failed to retrieve cache")
@@ -43,6 +46,11 @@ func PingServer(ch *cache.Cache) func(c *gin.Context) {
 			return
 		}
 
-		c.JSON(http.StatusOK, redisResponse)
+		server, err := minecraft.CreateResponseObj(redisResponse, address.IPv4, address.Port, true)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, server)
 	}
 }

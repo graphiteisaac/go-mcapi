@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"encoding/base64"
 	"errors"
 	"fmt"
 	"github.com/gin-gonic/gin"
@@ -9,14 +8,7 @@ import (
 	"mc-api/internal/cache"
 	"mc-api/internal/minecraft"
 	"net/http"
-	"strings"
 )
-
-func b64toimg(input string) ([]byte, error) {
-	image := input[strings.IndexByte(input, ',')+1:]
-
-	return base64.StdEncoding.DecodeString(image)
-}
 
 func GetIcon(ch *cache.Cache) func(c *gin.Context) {
 	return func(c *gin.Context) {
@@ -34,14 +26,14 @@ func GetIcon(ch *cache.Cache) func(c *gin.Context) {
 				return
 			}
 
-			img, err := b64toimg(server.Icon)
+			icon, err := minecraft.GetIcon(server)
 			if err != nil {
 				fmt.Println(err)
 				c.AbortWithStatus(http.StatusInternalServerError)
 				return
 			}
 
-			c.Data(http.StatusOK, "image/png", img)
+			c.Data(http.StatusOK, "image/png", icon)
 			return
 		} else if err != nil {
 			fmt.Println(err)
@@ -50,13 +42,13 @@ func GetIcon(ch *cache.Cache) func(c *gin.Context) {
 			return
 		}
 
-		imgBytes, err := b64toimg(cached)
+		icon, err := minecraft.GetIcon(cached)
 		if err != nil {
 			fmt.Println(err)
 			c.AbortWithStatus(http.StatusInternalServerError)
 			return
 		}
 
-		c.Data(http.StatusOK, "image/png", imgBytes)
+		c.Data(http.StatusOK, "image/png", icon)
 	}
 }
