@@ -1,21 +1,15 @@
-package services
+package minecraft
 
 import (
-	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/gin-gonic/gin"
-	"mc-api/internal/config"
-	"mc-api/internal/db"
-	"mc-api/internal/util"
 	"net"
 	"sort"
 	"strings"
 	"time"
 )
 
-func PingServerTCP(c *gin.Context, addr util.MinecraftAddress) (ping util.PingResponse, err error) {
-	passedAddr := addr.Combined
+func PingServer(addr Address) (ping PingResponse, err error) {
 	_, srvs, err := net.LookupSRV("minecraft", "tcp", addr.IP)
 	if err == nil {
 		sort.Slice(srvs, func(i, j int) bool {
@@ -35,17 +29,17 @@ func PingServerTCP(c *gin.Context, addr util.MinecraftAddress) (ping util.PingRe
 	defer conn.Close()
 
 	// send packet to server
-	util.SendPacket(&conn, addr.IP, addr.Port)
+	SendPacket(&conn, addr.IP, addr.Port)
 
 	// read packet response
-	res, err := util.ReadPacketResponse(&conn)
+	res, err := ReadPacketResponse(&conn)
 
 	if err != nil {
 		return ping, errors.New("tcp error: cant read packet response")
 	}
 
 	// unmarshal response into ping obj
-	ping, err = util.CreateResponseObj(res, addr, false)
+	ping, err = CreateResponseObj(res, addr.IP, addr.Port, false)
 	ping.IPv4 = strings.Split(conn.RemoteAddr().String(), ":")[0]
 
 	if err != nil {
@@ -53,14 +47,5 @@ func PingServerTCP(c *gin.Context, addr util.MinecraftAddress) (ping util.PingRe
 		return ping, errors.New("malformed response: cannot unmarshal response")
 	}
 
-	b, err := json.Marshal(ping)
-
-	if config.CacheMode {
-		err = db.Redis.Set(c, passedAddr, string(b), time.Minute*3).Err()
-		if err != nil {
-			return ping, errors.New("redis error: cannot set")
-		}
-	}
-
-	return
+	return ping, nil
 }

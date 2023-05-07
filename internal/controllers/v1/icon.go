@@ -1,50 +1,60 @@
 package controllers
 
 import (
+	"encoding/base64"
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"mc-api/internal/services"
-	"mc-api/internal/util"
+	"mc-api/internal/cache"
+	"mc-api/internal/minecraft"
 	"net/http"
+	"strings"
 )
 
-func GetIcon(c *gin.Context) {
-	address, err := util.ParseIP(c.Param("ip"))
-	if err != nil {
-		c.AbortWithStatus(http.StatusInternalServerError)
-		return
-	}
+func b64toimg(input string) ([]byte, error) {
+	image := input[strings.IndexByte(input, ',')+1:]
 
-	server, err := services.GetServerFromRedis(c, address)
-	if err != nil && err.Error() == "does not exist" {
-		server, err = services.PingServerTCP(c, address)
+	return base64.StdEncoding.DecodeString(image)
+}
+
+func GetIcon(ch *cache.Cache) func(c *gin.Context) {
+	return func(c *gin.Context) {
+		address, err := minecraft.ParseIP(c.Param("ip"))
 		if err != nil {
 			c.AbortWithStatus(http.StatusInternalServerError)
 			return
 		}
 
-		img, err := util.Base64StringToImage(server.Icon)
+		cached, err := ch.GetServer(c, address.Combined)
+		if err != nil && err.Error() == "cache disabled" {
+			server, err := minecraft.PingServer(address)
+			if err != nil {
+				c.AbortWithStatus(http.StatusInternalServerError)
+				return
+			}
+
+			img, err := b64toimg(server.Icon)
+			if err != nil {
+				fmt.Println(err)
+				c.AbortWithStatus(http.StatusInternalServerError)
+				return
+			}
+
+			c.Data(http.StatusOK, "image/png", img)
+			return
+		} else if err != nil {
+			fmt.Println(err)
+
+			c.AbortWithStatus(http.StatusInternalServerError)
+			return
+		}
+
+		imgBytes, err := b64toimg(cached)
 		if err != nil {
 			fmt.Println(err)
 			c.AbortWithStatus(http.StatusInternalServerError)
 			return
 		}
 
-		c.Data(http.StatusOK, "image/png", img)
-		return
-	} else if err != nil {
-		fmt.Println(err)
-
-		c.AbortWithStatus(http.StatusInternalServerError)
-		return
+		c.Data(http.StatusOK, "image/png", imgBytes)
 	}
-
-	img, err := util.Base64StringToImage(server.Icon)
-	if err != nil {
-		fmt.Println(err)
-		c.AbortWithStatus(http.StatusInternalServerError)
-		return
-	}
-
-	c.Data(http.StatusOK, "image/png", img)
 }

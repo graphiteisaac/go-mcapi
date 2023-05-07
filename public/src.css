@@ -132,8 +132,8 @@ main {
     display: block;
     border: 1px solid var(--grey-dark);
     background: rgba(0,0,0,.38);
-    border-radius: .6rem;
-    padding: .8rem 1.6rem;
+    border-radius: .5rem;
+    padding: 1rem 1.6rem;
     text-align: center;
     font-size: 12pt;
     font-weight: bold;
@@ -179,6 +179,103 @@ main {
     .req {
         grid-template-columns: 200px 1fr;
     }
+}
+
+.try {
+    border: 1px solid var(--grey-dark);
+    background: rgba(0,0,0,.38);
+    border-radius: .5rem;
+    padding: 2rem;
+}
+
+.result {
+    border-radius: .5rem;
+    margin-top: 1rem;
+    padding: 1rem 2rem;
+    background: #000;
+    display: flex;
+    align-items: center;
+}
+
+.result #icon {
+    width: 64px;
+    height: 64px;
+    margin-right: 1rem;
+}
+
+.result #ip {
+    font-weight: bold;
+}
+
+.result #players {
+    font-size: .8rem;
+    color: var(--text-main);
+}
+
+#ping {
+    display: flex;
+    background: #000;
+    border-radius: .4rem;
+    border: 1px solid var(--grey-dark);
+}
+
+#ping div {
+    flex: 0 1 auto;
+    font-weight: bold;
+    padding: .8rem 0 .8rem 1.2rem;
+    word-break: keep-all;
+    white-space: pre;
+    color: var(--text-main);
+}
+
+#ping input {
+    width: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-weight: bold;
+    font-size: inherit;
+    padding: .8rem 0;
+    color: #fff;
+    font-family: inherit;
+}
+
+#ping button {
+    background: none;
+    border: none;
+    border-left: 1px solid var(--grey-dark);
+    outline: none;
+    font-size: inherit;
+    color: var(--blue);
+    padding: .8rem 1.2rem;
+    font-weight: bold;
+    font-family: inherit;
+    transition: var(--transition-smooth) 120ms all;
+}
+
+#ping button:hover {
+    background: #161618;
+    color: #fff;
+    cursor: pointer;
+}
+
+#error {
+    background: #f31c3b;
+    font-weight: bold;
+    color: #fff;
+    margin-top: 1.2rem;
+    padding: .8rem 1.2rem;
+    border-radius: .4rem;
+}
+
+#loader {
+    background: #161618;
+    font-weight: bold;
+    text-align: center;
+    color: #fff;
+    margin-top: 1.2rem;
+    padding: .8rem 1.2rem;
+    border-radius: .4rem;
 }
 
 footer {

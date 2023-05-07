@@ -1,4 +1,4 @@
-package util
+package minecraft
 
 import (
 	"encoding/json"
@@ -31,11 +31,11 @@ type PingResponse struct {
 	Icon        string              `json:"favicon"`
 }
 
-func CreateResponseObj(raw string, address MinecraftAddress, cached bool) (ping PingResponse, err error) {
+func CreateResponseObj(raw string, host string, port uint16, cached bool) (ping PingResponse, err error) {
 	err = json.Unmarshal([]byte(raw), &ping)
 
-	ping.Hostname = address.IP
-	ping.Port = address.Port
+	ping.Hostname = host
+	ping.Port = port
 	ping.Cached = cached
 
 	return

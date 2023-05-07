@@ -1,11 +1,10 @@
-package util
+package minecraft
 
 import (
 	"bufio"
 	"bytes"
 	"encoding/binary"
 	"errors"
-	"fmt"
 	"net"
 )
 
@@ -14,14 +13,12 @@ func ReadPacketResponse(conn *net.Conn) (string, error) {
 	binary.ReadUvarint(read)
 
 	packetType, _ := read.ReadByte()
-	fmt.Println("packyType", packetType)
 	if bytes.Compare([]byte{packetType}, []byte("\x00")) != 0 {
 		return "", errors.New("error response packet type")
 	}
 
 	//Get data length via Varint
 	length, err := binary.ReadUvarint(read)
-	fmt.Println(length)
 	if err != nil {
 		return "", err
 	}
@@ -32,12 +29,12 @@ func ReadPacketResponse(conn *net.Conn) (string, error) {
 		return "", errors.New("error to big response")
 	}
 
-	//Recieve json buffer
-	bytesRecieved := uint64(0)
+	// Receive json buffer
+	bytesReceived := uint64(0)
 	recBytes := make([]byte, length)
-	for bytesRecieved < length {
-		n, _ := read.Read(recBytes[bytesRecieved:length])
-		bytesRecieved = bytesRecieved + uint64(n)
+	for bytesReceived < length {
+		n, _ := read.Read(recBytes[bytesReceived:length])
+		bytesReceived = bytesReceived + uint64(n)
 	}
 
 	return string(recBytes), nil

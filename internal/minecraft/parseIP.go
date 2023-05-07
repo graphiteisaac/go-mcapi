@@ -1,4 +1,4 @@
-package util
+package minecraft
 
 import (
 	"fmt"
@@ -6,14 +6,14 @@ import (
 	"strings"
 )
 
-type MinecraftAddress struct {
+type Address struct {
 	IP       string
 	IPv4     string
 	Port     uint16
 	Combined string
 }
 
-func ParseIP(raw string) (addr MinecraftAddress, err error) {
+func ParseIP(raw string) (addr Address, err error) {
 	if strings.Contains(raw, ":") {
 		split := strings.Split(raw, ":")
 		port, err := strconv.Atoi(split[1])

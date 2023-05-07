@@ -20,12 +20,14 @@
     <meta property="twitter:site" content="@graphiteIsaac">
     <meta property="twitter:description" content="Super simple HTTP API for basic Minecraft (Java Edition) server info, including player count and protocol.">
     <meta property="twitter:image" content="/docs/cover.jpg">
-    <style>header h1,header h5,p{margin:0;line-height:normal}header a,p a{transition:border-color .2s var(--transition-smooth);color:#fff;text-decoration:none}.req .tooltip,.req .url:before{position:absolute;bottom:120%;right:0}:root{--blue:#23CAFF;--text-main:#AAAAB6;--text-heading:#fff;--grey-dark:#28282E;--transition-smooth:cubic-bezier(0.4, 0, 0.2, 1)}body,html{margin:0}body{background:url('./bg.svg') fixed #161618;font-family:'Noto Sans',sans-serif;padding:1.2rem;color:#fff}.req .tooltip,.req .url,p{color:var(--text-main)}p{font-size:14pt}p.small{font-size:12pt;margin-top:1rem}p a{padding-bottom:.2rem;border-bottom:var(--grey-dark) 2px solid}header a:hover,p a:hover{border-color:var(--blue)}footer,header{text-align:center;padding:5rem 0}header h5{font-size:12pt;color:var(--blue)}header h1{font-size:48pt}header a{border:2px solid var(--grey-dark);display:inline-flex;align-items:center;margin-top:1rem;font-weight:700;padding:.7rem 1.6rem;border-radius:.4rem}.req .label .method,.req .url{border:1px solid var(--grey-dark)}header a svg{margin-right:6px}main{max-width:720px;margin:0 auto}.req{display:grid;grid-gap:1rem;margin-bottom:4rem}.req section{position:relative;display:inline-block}.req .label .method{background:rgba(0,0,0,.2);padding:.1rem .3rem;color:var(--blue);border-radius:.3rem}.req .tooltip{background:0 0;border:none;display:flex;align-items:center;font-weight:700;font-size:11pt;cursor:pointer}.req .tooltip svg{margin-right:.3rem}.req p{font-size:11pt;margin-top:.2rem}.req .url{display:block;background:rgba(0,0,0,.38);border-radius:.6rem;padding:.8rem 1.6rem;text-align:center;font-size:12pt;font-weight:700;font-family:'Roboto Mono',monospace,sans-serif;position:relative}.req .url:before{content:'Copied!';left:0;font-size:11pt;width:max-content;color:#fff;margin:0 auto;border:1px solid var(--grey-dark);background:rgba(0,0,0,.2);padding:.1rem .6rem;border-radius:.3rem;transition:all 140ms var(--transition-smooth);transform:translateY(.5rem);opacity:0;pointer-events:none}.req .url.active:before{opacity:1;transform:translateY(0)}.white{color:#fff}.blue{color:var(--blue)}@media (min-width:720px){.req{grid-template-columns:200px 1fr}}footer h2{font-size:32pt;margin:0 0 .4rem}</style>
+    <link rel="icon" href="/docs/favicon.svg">
+    <style>header h1,header h5,p{margin:0;line-height:normal}.req .tooltip,header a{align-items:center;font-weight:700}header a,p a{transition:border-color .2s var(--transition-smooth);color:#fff;text-decoration:none}.req .tooltip,.req .url:before{position:absolute;bottom:120%;right:0}#ping div,.req .tooltip,.req .url,.result #players,p{color:var(--text-main)}#ping div,#ping input,.req .tooltip,.req .url,.result #ip,header a{font-weight:700}#loader,#ping button:hover{background:#161618}#loader,.req .url,footer,header{text-align:center}:root{--blue:#23CAFF;--text-main:#AAAAB6;--text-heading:#fff;--grey-dark:#28282E;--transition-smooth:cubic-bezier(0.4, 0, 0.2, 1)}body,html{margin:0}body{background:url('./bg.svg') fixed #161618;font-family:'Noto Sans',sans-serif;padding:1.2rem;color:#fff}p{font-size:14pt}p.small{font-size:12pt;margin-top:1rem}p a{padding-bottom:.2rem;border-bottom:var(--grey-dark) 2px solid}header a:hover,p a:hover{border-color:var(--blue)}footer,header{padding:5rem 0}header h5{font-size:12pt;color:var(--blue)}header h1{font-size:48pt}header a{border:2px solid var(--grey-dark);display:inline-flex;margin-top:1rem;padding:.7rem 1.6rem;border-radius:.4rem}header a svg{margin-right:6px}main{max-width:720px;margin:0 auto}.req{display:grid;grid-gap:1rem;margin-bottom:4rem}.req section{position:relative;display:inline-block}.req .label .method{border:1px solid var(--grey-dark);background:rgba(0,0,0,.2);padding:.1rem .3rem;color:var(--blue);border-radius:.3rem}.req .tooltip{background:0 0;border:none;display:flex;font-size:11pt;cursor:pointer}.req .url,.try{background:rgba(0,0,0,.38)}.req .url,.req .url:before{border:1px solid var(--grey-dark)}.req .tooltip svg{margin-right:.3rem}.req p{font-size:11pt;margin-top:.2rem}.req .url{display:block;border-radius:.5rem;padding:1rem 1.6rem;font-size:12pt;font-family:'Roboto Mono',monospace,sans-serif;position:relative}.req .url:before{content:'Copied!';left:0;font-size:11pt;width:max-content;color:#fff;margin:0 auto;background:rgba(0,0,0,.2);padding:.1rem .6rem;border-radius:.3rem;transition:all 140ms var(--transition-smooth);transform:translateY(.5rem);opacity:0;pointer-events:none}.req .url.active:before{opacity:1;transform:translateY(0)}.white{color:#fff}#ping button,.blue{color:var(--blue)}@media (min-width:720px){.req{grid-template-columns:200px 1fr}}.try{border:1px solid var(--grey-dark);border-radius:.5rem;padding:2rem}#ping,.result{display:flex;background:#000}.result{border-radius:.5rem;margin-top:1rem;padding:1rem 2rem;align-items:center}.result #icon{width:64px;height:64px;margin-right:1rem}.result #players{font-size:.8rem}#ping{border-radius:.4rem;border:1px solid var(--grey-dark)}#ping button,#ping input{background:0 0;border:none;outline:0;font-size:inherit;font-family:inherit}#ping div{flex:0 1 auto;padding:.8rem 0 .8rem 1.2rem;word-break:keep-all;white-space:pre}#ping input{width:100%;padding:.8rem 0;color:#fff}#ping button{border-left:1px solid var(--grey-dark);padding:.8rem 1.2rem;font-weight:700;transition:var(--transition-smooth) 120ms all}#error,#loader{font-weight:700;color:#fff;margin-top:1.2rem;padding:.8rem 1.2rem;border-radius:.4rem}#ping button:hover{color:#fff;cursor:pointer}#error{background:#f31c3b}footer h2{font-size:32pt;margin:0 0 .4rem}
+    </style>
 </head>
 <body>
 
 <header>
-    <h5>version 1.0.1</h5>
+    <h5>v1.1.0</h5>
     <h1>Minecraft Server API</h1>
     <p>Super simple HTTP API for basic Minecraft (Java) server info</p>
     <a href="https://github.com/graphiteisaac/go-mcapi">
@@ -41,7 +43,7 @@
         <div>
             <div class="label">
                 <code class="method">GET</code>
-                <span class="route">/ping/{ip}</span>
+                <span class="route">/v1/ping/{ip}</span>
             </div>
             <p>Get basic information</p>
         </div>
@@ -52,7 +54,7 @@
                 </svg>
                 <span>Copy</span>
             </button>
-            <code class="url" data-url="ping">mc-api.grphcrtv.com/<span class="white">ping</span>/<span class="blue">your.server.ip</span></code>
+            <code class="url" data-url="ping">mc-api.grphcrtv.com/v1/<span class="white">ping</span>/<span class="blue">your.server.ip</span></code>
         </section>
     </div>
 
@@ -60,7 +62,7 @@
         <div>
             <div class="label">
                 <code class="method">GET</code>
-                <span class="route">/icon/{ip}</span>
+                <span class="route">/v1/icon/{ip}</span>
             </div>
             <p>Get server icon image</p>
         </div>
@@ -71,8 +73,28 @@
                 </svg>
                 <span>Copy</span>
             </button>
-            <code class="url" data-url="icon">mc-api.grphcrtv.com/<span class="white">icon</span>/<span class="blue">your.server.ip</span></code>
+            <code class="url" data-url="icon">mc-api.grphcrtv.com/v1/<span class="white">icon</span>/<span class="blue">your.server.ip</span></code>
         </section>
+    </div>
+
+    <h4 style="text-align:center;margin-bottom:1.6rem">Try it out!</h4>
+    <div class="try">
+        <form id="ping" autocomplete="off">
+            <div>mc-api.grphcrtv.com/ping/</div>
+            <input type="text" name="ip" autocomplete="off" aria-label="IP Address">
+            <button type="submit">Ping</button>
+        </form>
+
+        <div id="error" style="display:none">Could not ping server</div>
+        <div id="loader" style="display:none">Loading...</div>
+
+        <div class="result" style="display:none">
+            <img src="" id="icon" alt="Server Icon">
+            <div>
+                <div id="ip">play.server.com</div>
+                <div id="players">10/10 online</div>
+            </div>
+        </div>
     </div>
 </main>
 
@@ -90,6 +112,38 @@
             document.querySelector('.url[data-url=' + method + ']').classList.remove('active')
         }, 2000)
     }
+
+    document.getElementById('ping').addEventListener('submit', async (e) => {
+        e.preventDefault()
+
+        const fd = new FormData(e.target)
+        const ip = fd.get('ip')
+
+        if (ip.length < 3) return
+
+        document.querySelector('.result').style.display = 'none'
+        document.getElementById('loader').style.display = 'block'
+
+        try {
+            const req = await fetch(document.location.origin + '/v1/ping/' + ip)
+            const { favicon, ipv4, port, players } = await req.json()
+
+            if (req.status !== 200) {
+                throw req.status
+            }
+
+            document.getElementById('ip').innerText = ip + ' (' + ipv4 + ':' + port + ')'
+            document.getElementById('players').innerText = players.online + ' / ' + players.max + ' online'
+            document.getElementById('icon').src = favicon
+            document.getElementById('loader').style.display = 'none'
+            document.getElementById('error').style.display = 'none'
+            document.querySelector('.result').style.display = 'flex'
+        } catch(e) {
+            document.getElementById('error').style.display = 'block'
+        }
+
+        document.getElementById('loader').style.display = 'none'
+    })
 </script>
 </body>
 </html>
