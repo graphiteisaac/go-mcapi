@@ -2,8 +2,10 @@ package controllers
 
 import (
 	"encoding/base64"
+	"errors"
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/go-redis/redis/v8"
 	"mc-api/internal/cache"
 	"mc-api/internal/minecraft"
 	"net/http"
@@ -25,7 +27,7 @@ func GetIcon(ch *cache.Cache) func(c *gin.Context) {
 		}
 
 		cached, err := ch.GetServer(c, address.Combined)
-		if err != nil && err.Error() == "cache disabled" {
+		if err != nil && (err.Error() == "cache disabled" || errors.Is(err, redis.Nil)) {
 			server, err := minecraft.PingServer(address)
 			if err != nil {
 				c.AbortWithStatus(http.StatusInternalServerError)

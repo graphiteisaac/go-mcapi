@@ -2,8 +2,10 @@ package controllers
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/go-redis/redis/v8"
 	"mc-api/internal/cache"
 	"mc-api/internal/minecraft"
 	"net/http"
@@ -19,7 +21,7 @@ func PingServer(ch *cache.Cache) func(c *gin.Context) {
 
 		redisResponse, err := ch.GetServer(c, address.Combined)
 
-		if err != nil && err.Error() == "cache disabled" {
+		if err != nil && (err.Error() == "cache disabled" || errors.Is(err, redis.Nil)) {
 			tcpServer, terr := minecraft.PingServer(address)
 			if terr != nil {
 				fmt.Println(terr)
