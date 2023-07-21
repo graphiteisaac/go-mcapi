@@ -6,28 +6,24 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Minecraft Server API</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@500;700&family=Roboto+Mono:wght@700&display=swap" rel="stylesheet">
     <meta name="description" content="Super simple HTTP API for basic Minecraft (Java Edition) server info, including player count and protocol.">
     <meta name="keywords" content="Minecraft Server Ping, Minecraft Server API, Minecraft REST API, Minecraft Server REST">
     <meta property="og:title" content="Minecraft Server API">
     <meta property="og:site_name" content="Minecraft Server API">
     <meta property="og:description" content="Super simple HTTP API for basic Minecraft (Java Edition) server info, including player count and protocol.">
-    <meta property="og:image" content="/docs/cover.jpg">
+    <meta property="og:image" content="/assets/cover.jpg">
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:title" content="Minecraft Server API">
     <meta property="twitter:site" content="@graphiteIsaac">
     <meta property="twitter:description" content="Super simple HTTP API for basic Minecraft (Java Edition) server info, including player count and protocol.">
-    <meta property="twitter:image" content="/docs/cover.jpg">
-    <link rel="icon" href="/docs/favicon.svg">
-    <style>header h1,header h5,p{margin:0;line-height:normal}.req .tooltip,header a{align-items:center;font-weight:700}header a,p a{transition:border-color .2s var(--transition-smooth);color:#fff;text-decoration:none}.req .tooltip,.req .url:before{position:absolute;bottom:120%;right:0}#ping div,.req .tooltip,.req .url,.result #players,p{color:var(--text-main)}#ping div,#ping input,.req .tooltip,.req .url,.result #ip,header a{font-weight:700}#loader,#ping button:hover{background:#161618}#loader,.req .url,footer,header{text-align:center}:root{--blue:#23CAFF;--text-main:#AAAAB6;--text-heading:#fff;--grey-dark:#28282E;--transition-smooth:cubic-bezier(0.4, 0, 0.2, 1)}body,html{margin:0}body{background:url('./bg.svg') fixed #161618;font-family:'Noto Sans',sans-serif;padding:1.2rem;color:#fff}p{font-size:14pt}p.small{font-size:12pt;margin-top:1rem}p a{padding-bottom:.2rem;border-bottom:var(--grey-dark) 2px solid}header a:hover,p a:hover{border-color:var(--blue)}footer,header{padding:5rem 0}header h5{font-size:12pt;color:var(--blue)}header h1{font-size:48pt}header a{border:2px solid var(--grey-dark);display:inline-flex;margin-top:1rem;padding:.7rem 1.6rem;border-radius:.4rem}header a svg{margin-right:6px}main{max-width:720px;margin:0 auto}.req{display:grid;grid-gap:1rem;margin-bottom:4rem}.req section{position:relative;display:inline-block}.req .label .method{border:1px solid var(--grey-dark);background:rgba(0,0,0,.2);padding:.1rem .3rem;color:var(--blue);border-radius:.3rem}.req .tooltip{background:0 0;border:none;display:flex;font-size:11pt;cursor:pointer}.req .url,.try{background:rgba(0,0,0,.38)}.req .url,.req .url:before{border:1px solid var(--grey-dark)}.req .tooltip svg{margin-right:.3rem}.req p{font-size:11pt;margin-top:.2rem}.req .url{display:block;border-radius:.5rem;padding:1rem 1.6rem;font-size:12pt;font-family:'Roboto Mono',monospace,sans-serif;position:relative}.req .url:before{content:'Copied!';left:0;font-size:11pt;width:max-content;color:#fff;margin:0 auto;background:rgba(0,0,0,.2);padding:.1rem .6rem;border-radius:.3rem;transition:all 140ms var(--transition-smooth);transform:translateY(.5rem);opacity:0;pointer-events:none}.req .url.active:before{opacity:1;transform:translateY(0)}.white{color:#fff}#ping button,.blue{color:var(--blue)}@media (min-width:720px){.req{grid-template-columns:200px 1fr}}.try{border:1px solid var(--grey-dark);border-radius:.5rem;padding:2rem}#ping,.result{display:flex;background:#000}.result{border-radius:.5rem;margin-top:1rem;padding:1rem 2rem;align-items:center}.result #icon{width:64px;height:64px;margin-right:1rem}.result #players{font-size:.8rem}#ping{border-radius:.4rem;border:1px solid var(--grey-dark)}#ping button,#ping input{background:0 0;border:none;outline:0;font-size:inherit;font-family:inherit}#ping div{flex:0 1 auto;padding:.8rem 0 .8rem 1.2rem;word-break:keep-all;white-space:pre}#ping input{width:100%;padding:.8rem 0;color:#fff}#ping button{border-left:1px solid var(--grey-dark);padding:.8rem 1.2rem;font-weight:700;transition:var(--transition-smooth) 120ms all}#error,#loader{font-weight:700;color:#fff;margin-top:1.2rem;padding:.8rem 1.2rem;border-radius:.4rem}#ping button:hover{color:#fff;cursor:pointer}#error{background:#f31c3b}footer h2{font-size:32pt;margin:0 0 .4rem}
-    </style>
+    <meta property="twitter:image" content="/assets/cover.jpg">
+    <link rel="icon" href="/assets/favicon.svg">
+    <style>{{ .style|css }}</style>
 </head>
 <body>
 
 <header>
-    <h5>v1.1.0</h5>
+    <h5>v{{ .version }}</h5>
     <h1>Minecraft Server API</h1>
     <p>Super simple HTTP API for basic Minecraft (Java) server info</p>
     <a href="https://github.com/graphiteisaac/go-mcapi">

@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
-	"mc-api/internal/cache"
-	"mc-api/internal/routes/v1"
+	"mc-api/cache"
+	"mc-api/routes"
 )
 
 var port uint
@@ -23,7 +23,8 @@ func main() {
 	ch := cache.New()
 
 	// Register routes
-	routes.RegisterV1Routes(router, ch)
+	// TODO source version from README
+	routes.RegisterV1Routes(router, ch, "1.1.1")
 
 	router.Run(fmt.Sprintf(":%d", port))
 }

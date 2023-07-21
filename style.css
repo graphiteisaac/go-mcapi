@@ -1,3 +1,17 @@
+@font-face {
+    font-family: 'Noto Sans', sans-serif;
+    font-display: swap;
+    font-weight: 500;
+    src: url('/assets/NotoSans-Medium.ttf');
+}
+
+@font-face {
+    font-family: 'Noto Sans', sans-serif;
+    font-display: swap;
+    font-weight: 700;
+    src: url('/assets/NotoSans-Bold.ttf');
+}
+
 :root {
     --blue: #23CAFF;
     --text-main: #AAAAB6;
@@ -6,14 +20,14 @@
     --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-
 html, body {
     margin: 0;
 }
 
 body {
-    background: #161618 url('./bg.svg') repeat fixed;
+    background: #161618 url('/assets/bg.svg') repeat fixed;
     font-family: 'Noto Sans', sans-serif;
+    font-weight: 500;
     padding: 1.2rem;
     color: #fff;
 }
@@ -137,7 +151,7 @@ main {
     text-align: center;
     font-size: 12pt;
     font-weight: bold;
-    font-family: 'Roboto Mono', monospace, sans-serif;
+    font-family: 'Noto Sans', monospace, sans-serif;
     color: var(--text-main);
     position: relative;
 }
