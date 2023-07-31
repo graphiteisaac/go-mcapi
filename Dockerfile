@@ -1,12 +1,22 @@
-FROM golang:1.17-alpine
+FROM golang:1.20-alpine AS builder
+
+ENV APP_HOME /go/src/storm
+ENV CGO_ENABLED 0
 
 WORKDIR /app
-COPY go.mod go.sum ./
+COPY go.mod .
+COPY go.sum .
+
 RUN go mod download
+RUN go mod verify
 
 COPY . .
 
-RUN go build -o api .
+RUN GOOS=linx GOARCH=amd64 go build -ldflags="-w -s" -o app .
+
+FROM  alpine
+COPY --from=builder $APP_HOME/app .
+
 EXPOSE 3333
-CMD ["./api"]
+ENTRYPOINT ["./app"]
 
