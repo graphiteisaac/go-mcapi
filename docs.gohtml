@@ -121,14 +121,14 @@
         document.getElementById('loader').style.display = 'block'
 
         try {
-            const req = await fetch(document.location.origin + '/v1/ping/' + ip)
-            const { favicon, ipv4, port, players } = await req.json()
+            const req = await fetch(document.location.origin + '/v1/ping/' + ip + "?icon=true")
+            const { favicon, players } = await req.json()
 
             if (req.status !== 200) {
                 throw req.status
             }
 
-            document.getElementById('ip').innerText = ip + ' (' + ipv4 + ':' + port + ')'
+            document.getElementById('ip').innerText = ip.toString()
             document.getElementById('players').innerText = players.online + ' / ' + players.max + ' online'
             document.getElementById('icon').src = favicon
             document.getElementById('loader').style.display = 'none'
