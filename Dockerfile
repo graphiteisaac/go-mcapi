@@ -12,7 +12,7 @@ RUN go mod verify
 
 COPY . .
 
-RUN GOOS=linx GOARCH=amd64 go build -ldflags="-w -s" -o app .
+RUN GOOS=linux GOARCH=amd64 go build -ldflags="-w -s" -o app .
 
 FROM  alpine
 COPY --from=builder $APP_HOME/app .
