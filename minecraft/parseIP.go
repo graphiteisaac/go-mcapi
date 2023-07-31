@@ -1,33 +1,31 @@
 package minecraft
 
 import (
-	"fmt"
 	"strconv"
 	"strings"
 )
 
 type Address struct {
-	IP       string
-	IPv4     string
-	Port     uint16
-	Combined string
+	Host string
+	Port uint16
 }
 
-func ParseIP(raw string) (addr Address, err error) {
+func ParseIP(raw string) (*Address, error) {
+	addr := &Address{
+		Host: raw,
+		Port: 25565,
+	}
+
 	if strings.Contains(raw, ":") {
 		split := strings.Split(raw, ":")
 		port, err := strconv.Atoi(split[1])
 		if err != nil {
-			return addr, err
+			return nil, err
 		}
 
-		addr.IP = split[0]
+		addr.Host = split[0]
 		addr.Port = uint16(port)
-	} else {
-		addr.IP = raw
-		addr.Port = 25565
 	}
 
-	addr.Combined = fmt.Sprintf("%s:%d", addr.IP, addr.Port)
-	return
+	return addr, nil
 }

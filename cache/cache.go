@@ -3,7 +3,9 @@ package cache
 import (
 	"context"
 	"errors"
+	"fmt"
 	"github.com/go-redis/redis/v8"
+	"mc-api/minecraft"
 	"os"
 	"time"
 )
@@ -30,18 +32,18 @@ func New() *Cache {
 	}
 }
 
-func (ch *Cache) GetServer(c context.Context, key string) (string, error) {
+func (ch *Cache) GetServer(c context.Context, address *minecraft.Address) (string, error) {
 	if !ch.Enabled {
 		return "", errors.New("cache disabled")
 	}
 
-	return ch.Rdb.Get(c, key).Result()
+	return ch.Rdb.Get(c, fmt.Sprintf("%s:%d", address.Host, address.Port)).Result()
 }
 
-func (ch *Cache) SetServer(c context.Context, key string, json string) error {
+func (ch *Cache) SetServer(c context.Context, address *minecraft.Address, json string) error {
 	if !ch.Enabled {
 		return nil
 	}
 
-	return ch.Rdb.Set(c, key, json, time.Second*5).Err()
+	return ch.Rdb.Set(c, fmt.Sprintf("%s:%d", address.Host, address.Port), json, time.Minute*5).Err()
 }

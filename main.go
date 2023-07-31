@@ -7,6 +7,9 @@ import (
 	"github.com/joho/godotenv"
 	"mc-api/cache"
 	"mc-api/routes"
+	"net/http"
+	"os"
+	"regexp"
 )
 
 var port uint
@@ -23,8 +26,20 @@ func main() {
 	ch := cache.New()
 
 	// Register routes
-	// TODO source version from README
-	routes.RegisterV1Routes(router, ch, "1.1.1")
+	version := "1.0.0"
+	f, err := os.ReadFile("README.md")
+	if err != nil {
+		fmt.Println("could not open readme, defaulting to version 1.0.0")
+	}
+
+	version = regexp.MustCompile("(Version `(\\d\\.\\d\\.\\d))`").FindStringSubmatch(string(f))[2]
+
+	routes.ServerAPIV1(router, ch, version)
+	routes.RegisterDocs(router, version)
+	// fallback redirect
+	router.NoRoute(func(c *gin.Context) {
+		c.Redirect(http.StatusPermanentRedirect, "/docs")
+	})
 
 	router.Run(fmt.Sprintf(":%d", port))
 }

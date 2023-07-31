@@ -50,7 +50,7 @@
                 </svg>
                 <span>Copy</span>
             </button>
-            <code class="url" data-url="ping">mc-api.grphcrtv.com/v1/<span class="white">ping</span>/<span class="blue">your.server.ip</span></code>
+            <code class="url" data-url="ping">mc-api.co/v1/<span class="white">ping</span>/<span class="blue">your.server.ip</span></code>
         </section>
     </div>
 
@@ -69,14 +69,14 @@
                 </svg>
                 <span>Copy</span>
             </button>
-            <code class="url" data-url="icon">mc-api.grphcrtv.com/v1/<span class="white">icon</span>/<span class="blue">your.server.ip</span></code>
+            <code class="url" data-url="icon">mc-api.co/v1/<span class="white">icon</span>/<span class="blue">your.server.ip</span></code>
         </section>
     </div>
 
     <h4 style="text-align:center;margin-bottom:1.6rem">Try it out!</h4>
     <div class="try">
         <form id="ping" autocomplete="off">
-            <div>mc-api.grphcrtv.com/ping/</div>
+            <div>mc-api.co/v1/ping/</div>
             <input type="text" name="ip" autocomplete="off" aria-label="IP Address">
             <button type="submit">Ping</button>
         </form>
@@ -102,7 +102,7 @@
 
 <script>
     function copy(method) {
-        window.navigator.clipboard.writeText(`https://mc-api.grphcrtv.com/v1/${method}/`)
+        window.navigator.clipboard.writeText(`https://mc-api.co/v1/${method}/`)
         document.querySelector('.url[data-url=' + method + ']').classList.add('active')
         setTimeout(() => {
             document.querySelector('.url[data-url=' + method + ']').classList.remove('active')
