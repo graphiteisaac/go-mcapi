@@ -1,4 +1,11 @@
 mc-api.co, mc-api.grphcrtv.com {
     reverse_proxy service:3333
     encode gzip
+    header {
+        Access-Control-Allow-Origin *
+        Access-Control-Allow-Credentials true
+        Access-Control-Allow-Methods *
+        Access-Control-Allow-Headers *
+        defer
+    }
 }

@@ -20,6 +20,10 @@ func main() {
 
 	// load in .env variables with the godotenv loader
 	godotenv.Load()
+	fmt.Println(os.Getenv("CACHE"))
+	fmt.Println(os.Getenv("CACHE_EXP"))
+	fmt.Println(os.Getenv("REDIS_HOST"))
+	fmt.Println(os.Getenv("REDIS_PASS"))
 
 	// create a new Gin router
 	router := gin.Default()
