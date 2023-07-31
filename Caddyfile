@@ -1,4 +1,4 @@
 mc-api.co, mc-api.grphcrtv.com {
     reverse_proxy service:3333
-    gzip
+    encode gzip
 }
