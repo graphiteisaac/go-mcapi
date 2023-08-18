@@ -1,6 +1,8 @@
 # go-mcapi
 Super simple HTTP API for basic Minecraft (Java) server info
 
+A free hosted version is available at https://mc-api.co
+
 Version `1.2.0`
 
 ## Usage
