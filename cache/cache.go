@@ -4,11 +4,10 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/go-redis/redis/v8"
-	"mc-api/minecraft"
-	"os"
-	"strconv"
 	"time"
+
+	"github.com/go-redis/redis/v8"
+	"github.com/graphiteisaac/go-mcapi/minecraft"
 )
 
 type Cache struct {
@@ -17,24 +16,31 @@ type Cache struct {
 	Rdb     *redis.Client
 }
 
-func New() *Cache {
-	if os.Getenv("CACHE") == "true" {
-		exp, _ := strconv.Atoi(os.Getenv("CACHE_EXP"))
-
+func New(enabled bool, url string, expiry time.Duration) (*Cache, error) {
+	if !enabled {
 		return &Cache{
-			Enabled: true,
-			Expiry:  exp,
-			Rdb: redis.NewClient(&redis.Options{
-				Addr:     os.Getenv("REDIS_HOST"),
-				Password: os.Getenv("REDIS_PASS"),
-				DB:       0,
-			}),
-		}
+			Enabled: false,
+		}, nil
+	}
+
+	opts, err := redis.ParseURL(url)
+	if err != nil {
+		return nil, err
+	}
+
+	client := redis.NewClient(opts)
+	c, cancel := context.WithTimeout(context.Background(), time.Second*3)
+	defer cancel()
+
+	if client.Ping(c).String() != "PONG" {
+		return nil, errors.New("failed to ping redis server")
 	}
 
 	return &Cache{
-		Enabled: false,
-	}
+		Enabled: true,
+		Expiry:  int(expiry.Seconds()),
+		Rdb:     client,
+	}, nil
 }
 
 func (ch *Cache) GetServer(c context.Context, address *minecraft.Address) (string, error) {

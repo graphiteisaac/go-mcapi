@@ -3,34 +3,33 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/gin-gonic/gin"
-	"github.com/joho/godotenv"
-	"mc-api/cache"
-	"mc-api/routes"
+	"log"
 	"net/http"
 	"os"
 	"regexp"
+	"time"
+
+	"github.com/gin-gonic/gin"
+	"github.com/graphiteisaac/go-mcapi/cache"
+	"github.com/graphiteisaac/go-mcapi/routes"
 )
 
-var port uint
-
 func main() {
-	port = *flag.Uint("port", 3333, "the port to run the server on")
+	port := *flag.Uint("port", 3333, "the port to run the server on")
+	enableCache := *flag.Bool("cache", false, "enable caching")
+	cacheExpiry := *flag.Duration("expiry", time.Second*3, "cache expiry time")
+	redisURI := *flag.String("redis-uri", "", "the full redis URI (eg redis://:pass@localhost:6379/0)")
 	flag.Parse()
-
-	// load in .env variables with the godotenv loader
-	godotenv.Load()
-	fmt.Println(os.Getenv("CACHE"))
-	fmt.Println(os.Getenv("CACHE_EXP"))
-	fmt.Println(os.Getenv("REDIS_HOST"))
-	fmt.Println(os.Getenv("REDIS_PASS"))
 
 	// create a new Gin router
 	router := gin.Default()
-	ch := cache.New()
+	ch, err := cache.New(enableCache, redisURI, cacheExpiry)
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	// Register routes
-	version := "1.0.0"
+	version := "1.1.0"
 	f, err := os.ReadFile("README.md")
 	if err != nil {
 		fmt.Println("could not open readme, defaulting to version 1.0.0")
@@ -40,6 +39,7 @@ func main() {
 
 	routes.ServerAPIV1(router, ch, version)
 	routes.RegisterDocs(router, version)
+
 	// fallback redirect
 	router.NoRoute(func(c *gin.Context) {
 		c.Redirect(http.StatusPermanentRedirect, "/docs")

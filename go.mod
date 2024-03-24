@@ -1,6 +1,6 @@
-module mc-api
+module github.com/graphiteisaac/go-mcapi
 
-go 1.17
+go 1.22
 
 require (
 	github.com/fogleman/gg v1.3.0

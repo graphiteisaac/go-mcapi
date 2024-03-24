@@ -1,16 +1,17 @@
 package routes
 
 import (
-	"github.com/fogleman/gg"
-	"github.com/gin-gonic/gin"
-	"github.com/golang/freetype/truetype"
-	"github.com/tdewolff/minify/v2/minify"
 	"html/template"
 	"image/color"
 	"image/jpeg"
 	"log"
 	"net/http"
 	"os"
+
+	"github.com/fogleman/gg"
+	"github.com/gin-gonic/gin"
+	"github.com/golang/freetype/truetype"
+	"github.com/tdewolff/minify/v2/minify"
 )
 
 func RegisterDocs(g *gin.Engine, version string) {
@@ -37,7 +38,13 @@ func RegisterDocs(g *gin.Engine, version string) {
 		img := gg.NewContextForImage(jpg)
 
 		notoBytes, err := os.ReadFile("assets/NotoSans-Bold.ttf")
+		if err != nil {
+			log.Fatal("could not read font file")
+		}
 		noto, err := truetype.Parse(notoBytes)
+		if err != nil {
+			log.Fatal("could not parse font as truetype")
+		}
 
 		img.SetFontFace(truetype.NewFace(noto, &truetype.Options{Size: 28}))
 		img.SetColor(color.NRGBA{35, 202, 255, 255})

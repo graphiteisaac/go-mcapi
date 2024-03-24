@@ -3,12 +3,13 @@ package routes
 import (
 	"errors"
 	"fmt"
-	"github.com/gin-gonic/gin"
-	"github.com/go-redis/redis/v8"
-	"mc-api/cache"
-	"mc-api/minecraft"
 	"net/http"
 	"time"
+
+	"github.com/gin-gonic/gin"
+	"github.com/go-redis/redis/v8"
+	"github.com/graphiteisaac/go-mcapi/cache"
+	"github.com/graphiteisaac/go-mcapi/minecraft"
 )
 
 func ServerAPIV1(g *gin.Engine, ch *cache.Cache, version string) {
